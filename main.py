@@ -5,6 +5,7 @@ GPIO.setup(17, GPIO.OUT)
 
 thermal_cat = '/sys/class/thermal/thermal_zone0/temp'
 timer_delay = 1
+gpio_port = 17
 
 
 def get_thermal(cmd):
@@ -16,9 +17,11 @@ def get_thermal(cmd):
 
 def gpio_control(temp):
     if temp >= 40.0:
-        GPIO.output(17, 1)
+        GPIO.output(gpio_port, 1)
+        print("GPIO port", gpio_port, "now is active")
     else:
-        GPIO.output(17, 0)
+        GPIO.output(gpio_port, 0)
+        print("GPIO port", gpio_port, "now is inactive")
 
 
 if __name__ == '__main__':
