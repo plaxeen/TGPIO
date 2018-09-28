@@ -1,11 +1,12 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 import RPi.GPIO as GPIO
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(17, GPIO.OUT)
 
 thermal_cat = '/sys/class/thermal/thermal_zone0/temp'
 timer_delay = 1
 gpio_port = 17
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(gpio_port, GPIO.OUT)
 
 
 def get_thermal(cmd):
@@ -18,10 +19,10 @@ def get_thermal(cmd):
 def gpio_control(temp):
     if temp >= 40.0:
         GPIO.output(gpio_port, 1)
-        print("GPIO port", gpio_port, "now is active")
+        print("Temperature exceeded", str(temp), "GPIO port", gpio_port, "now is active")
     else:
         GPIO.output(gpio_port, 0)
-        print("GPIO port", gpio_port, "now is inactive")
+        print("Temperature is", str(temp) + ". Not advisable to turn on the fan.")
 
 
 if __name__ == '__main__':
